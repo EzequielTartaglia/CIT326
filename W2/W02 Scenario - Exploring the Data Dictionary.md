@@ -73,10 +73,9 @@ Run queries using the same three databases you previously explored to find out h
 
     **HINT**: Take a look at the system catalog views regarding databases and files. Try querying them or reading the documentation to determine which to use. You will have to do some conversion, because the “size” column lists a different type of measurement in the documentation. Read it carefully as well as this page for database storage measurements.
 
-    **SHOW 3**: 
-Queries and results which list the file name, file location, and file size (as listed in the database_files catalog view without conversion) of any file greater than or equal to size 1024.
-Queries and results which list the full size of each database in MB. You will have to add the size for each database file using the SUM function and then include the calculations from the hint above. (Video review on using math in your SQL.)
-Show the screen in your Windows explorer where you navigate to the folder which holds the files (listed in your query from part i). Identify them and compare them to your results from steps i and ii. Your calculations from step ii should match what you see in Windows!
+    **SHOW 3**:
+
+    Queries and results which list the file name, file location, and file size (as listed in the database_files catalog view without conversion) of any file greater than or equal to size 1024.
 
     ```sql
     -- Identify which files inside the columns have have more than 1024 pixls of size throughout all tables in your database
@@ -122,6 +121,26 @@ Show the screen in your Windows explorer where you navigate to the folder which 
     WHERE 
         so.size >= 1024;
     ```
+
+    Queries and results which list the full size of each database in MB. You will have to add the size for each database file using the SUM function and then include the calculations from the hint above. (Video review on using math in your SQL.)
+
+    ```sql
+    -- Know the full size of each DB
+    SELECT 
+        DB_NAME(database_id) AS DatabaseName,
+        SUM(size) / 128.0 AS TotalSizeMB
+    FROM 
+        sys.master_files 
+    WHERE 
+        size >= 1024
+    GROUP BY 
+        database_id
+    ORDER BY
+        SUM(size) DESC;
+    ```
+
+    Show the screen in your Windows explorer where you navigate to the folder which holds the files (listed in your query from part i). Identify them and compare them to your results from steps i and ii. Your calculations from step ii should match what you see in Windows!
+
 -------------
 
 4. Take a closer look at any of the catalog tables/views mentioned in the week 2 preparation post (Always read the preparation posts!). Read through the official Microsoft documentation or the book to find out what the columns mean. Find two more items that could be of interest to you in administering these databases. 
