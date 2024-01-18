@@ -158,3 +158,18 @@ Run queries using the same three databases you previously explored to find out h
     JOIN 
         SalesOrdersExample.sys.tables t ON c.object_id = t.object_id;
     ```
+
+    ```sql
+    -- Show the dependences (foreign key) in any table of the DB
+    SELECT 
+        t.name AS TableName,
+        ref.name AS ReferencedTableName
+    FROM 
+        SalesOrdersExample.sys.tables t
+    JOIN 
+        SalesOrdersExample.sys.foreign_keys fk ON t.object_id = fk.parent_object_id
+    JOIN 
+        SalesOrdersExample.sys.tables ref ON fk.referenced_object_id = ref.object_id
+    WHERE 
+        t.name = 'Orders';
+    ```
