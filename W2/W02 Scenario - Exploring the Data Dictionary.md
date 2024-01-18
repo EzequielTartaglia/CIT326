@@ -16,7 +16,7 @@ Run a query using "sys.tables" within each database to discover all user tables 
     **SHOW 1**: Your queries and query results. The results should include the names of all user tables in each database, when each was created, and last modified date.
 
     ```sql
-    -- Identify and lists thoughout all tables in your database
+    -- Identify and lists throughout all tables in your database
 
     -- For WideWorldImporters
     SELECT name AS TableName, create_date AS CreatedDate, modify_date AS LastModifiedDate
@@ -46,7 +46,7 @@ searches such as ‘sql server sys.columns join sys.tables list all columns for 
 
     ```sql
 
-    -- Identify which columns have "name" in the column's name thoughout all tables in your database
+    -- Identify which columns have "name" in the column's name throughout all tables in your database
 
     -- For WideWorldImporters
     SELECT c.name AS columnName, t.name AS tableName, c.max_length AS maxLength
@@ -78,6 +78,50 @@ Queries and results which list the file name, file location, and file size (as l
 Queries and results which list the full size of each database in MB. You will have to add the size for each database file using the SUM function and then include the calculations from the hint above. (Video review on using math in your SQL.)
 Show the screen in your Windows explorer where you navigate to the folder which holds the files (listed in your query from part i). Identify them and compare them to your results from steps i and ii. Your calculations from step ii should match what you see in Windows!
 
+    ```sql
+    -- Identify which files inside the columns have have more than 1024 pixls of size throughout all tables in your database
+    
+    -- For WideWorldImporters
+    SELECT 
+        t.name AS TableName,
+        mf.name AS FileName,
+        mf.physical_name AS FileLocation,
+        mf.size AS FileSize
+    FROM 
+        WideWorldImporters.sys.master_files mf
+    JOIN 
+        WideWorldImporters.sys.tables t ON mf.database_id = DB_ID()
+    WHERE 
+        mf.size >= 1024;
+
+
+    -- For Bowling
+    SELECT 
+        t.name AS TableName,
+        bl.name AS FileName,
+        bl.physical_name AS FileLocation,
+        bl.size AS FileSize
+    FROM 
+        BowlingLeagueModify.sys.master_files bl
+    JOIN 
+        BowlingLeagueModify.sys.tables t ON bl.database_id = DB_ID()
+    WHERE 
+        bl.size >= 1024;
+
+
+    -- For choosen DB (SalesOrdersExample)
+    SELECT 
+        t.name AS TableName,
+        so.name AS FileName,
+        so.physical_name AS FileLocation,
+        so.size AS FileSize
+    FROM 
+        SalesOrdersExample.sys.master_files so
+    JOIN 
+        SalesOrdersExample.sys.tables t ON so.database_id = DB_ID()
+    WHERE 
+        so.size >= 1024;
+    ```
 -------------
 
 4. Take a closer look at any of the catalog tables/views mentioned in the week 2 preparation post (Always read the preparation posts!). Read through the official Microsoft documentation or the book to find out what the columns mean. Find two more items that could be of interest to you in administering these databases. 
