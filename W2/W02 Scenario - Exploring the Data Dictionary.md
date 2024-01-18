@@ -16,6 +16,8 @@ Run a query using "sys.tables" within each database to discover all user tables 
     **SHOW 1**: Your queries and query results. The results should include the names of all user tables in each database, when each was created, and last modified date.
 
     ```sql
+    -- Identify and lists thoughout all tables in your database
+
     -- For WideWorldImporters
     SELECT name AS TableName, create_date AS CreatedDate, modify_date AS LastModifiedDate
     FROM WideWorldImporters.sys.tables
@@ -43,6 +45,9 @@ searches such as ‘sql server sys.columns join sys.tables list all columns for 
     **SHOW 2**: Your queries and query results for each of the three databases. The results should include: the name of the column, the name of the table the column belongs to, and the current maximum length for that column.
 
     ```sql
+
+    -- Identify which columns have "name" in the column's name thoughout all tables in your database
+
     -- For WideWorldImporters
     SELECT c.name AS columnName, t.name AS tableName, c.max_length AS maxLength
     FROM WideWorldImporters.sys.columns c
