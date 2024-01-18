@@ -146,3 +146,15 @@ Run queries using the same three databases you previously explored to find out h
 4. Take a closer look at any of the catalog tables/views mentioned in the week 2 preparation post (Always read the preparation posts!). Read through the official Microsoft documentation or the book to find out what the columns mean. Find two more items that could be of interest to you in administering these databases. 
 
     **SHOW 4**: The two items you discovered in the data dictionary and the corresponding query results. Explain why you believe these would be important to keep an eye on.
+
+    ```sql
+    -- Show the maximun length in any value throughtout all collumns in the table & see if those are nulleable or not 
+    SELECT 
+        c.name AS ColumnName,
+        c.max_length AS MaxLengthColumn,
+        c.is_nullable AS IsNullable
+    FROM 
+        SalesOrdersExample.sys.columns c
+    JOIN 
+        SalesOrdersExample.sys.tables t ON c.object_id = t.object_id;
+    ```
