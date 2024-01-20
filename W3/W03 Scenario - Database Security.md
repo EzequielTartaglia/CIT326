@@ -19,6 +19,31 @@ If you have doubts about these security tasks, the best approach is to experimen
 
     Explain the difference between authentication and authorization. Give an example of authorization in the database.
 
+    **Authentication: Process of verifying the identity of a user, system, or application. It ensures that the entity trying to access a system is who it claims to be. Authentication is typically achieved through the presentation of credentials, such as usernames and passwords, biometric data, or security tokens.**
+
+    **Authorization: Process of granting or denying access to specific resources or actions based on the authenticated entity's permissions. Once a user or system is authenticated, authorization determines what actions or data that authenticated entity is allowed to access or modify.**
+
+    ```sql
+    USE [SalesOrdersExample];
+
+    -- Create User "BYU_student_user"
+    CREATE USER [BYU_student_user] FOR LOGIN [BYU_student_user];
+
+    -- Assign to Data Reader Role ("db_datareader")
+    ALTER ROLE [db_datareader] ADD MEMBER [BYU_student_user];
+
+    -- Create Schema "BYU_student"
+    CREATE SCHEMA [BYU_student];
+
+    -- Transfer Tables to Schema "BYU_student"
+    ALTER SCHEMA [BYU_student] TRANSFER Categories;
+    ALTER SCHEMA [BYU_student] TRANSFER Customers;
+    ALTER SCHEMA [BYU_student] TRANSFER Employees;
+    ALTER SCHEMA [BYU_student] TRANSFER Vendors;
+
+    -- Grant SELECT Permissions on Schema "BYU_student"
+    GRANT SELECT ON SCHEMA::[BYU_student] TO [BYU_student_user];
+    ```
 
     Verify your SQL Server installation is in mixed authorization mode and can accept both Windows and SQL Server Authentication.
 
@@ -42,6 +67,20 @@ If you have doubts about these security tasks, the best approach is to experimen
 
     What would happen if you grant SELECT permission on a table to the fixed database role called ‘public?’ Would this granted permission apply to future users also (users that are not created yet)? Why could this be dangerous? HINT: Look under ‘Fixed Database Roles’ in Chapter 12 or here in the Microsoft documentation.
  
+    **Granting SELECT permission on a table to the 'public' role means that all users in the database, including future users, will have SELECT permission on that table. This is because every user is a member of the 'public' role by default. If a new user is added to the database, they will also inherit the SELECT permission on the specified table through their membership in the 'public' role.**
+
+     **This approach may be dangerous for the following reasons:**
+
+    **Security Risks: If sensitive data is involved, granting broad permissions to the 'public' role could lead to unauthorized access.**
+
+    **Lack of Granularity: The 'public' role is an all-or-nothing proposition. Permissions granted to 'public' apply universally to all users, limiting the granularity of access control.**
+
+    **Maintenance Challenges: Managing and auditing permissions become challenging when granted through 'public,' as it may not be clear which users have access to specific objects.**
+
+    **Unintended Privilege Escalation: Granting permissions to 'public' may inadvertently elevate the privileges of users who should not have had those permissions.**
+
+    **(https://learn.microsoft.com/en-us/sql/relational-databases/security/authentication-access/database-level-roles?view=sql-server-ver15)**
+
     **SHOW 1:** Your understanding by answering these questions confidently. Use the textbook or Microsoft documentation to verify your answers.
 
 ---
