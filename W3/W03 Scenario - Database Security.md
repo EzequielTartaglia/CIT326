@@ -145,6 +145,7 @@ Transfer the tables in the bowling database and your chosen database out of the 
     ```
 ---
 
+
 3. With “user-defined roles,” determine a common level of authorization privileges new users should have in one database of your choice. This may be different for each business model (database) according to your discretion.
 First, you decide to create a list of DCL (Data Control Language or “GRANT commands”) to assign to every future entry-level user of a given database. You can choose whatever you would like for the users to be authorized to do.
 **HINT**: Here is a student example of practicing DCL for two test users.
@@ -158,6 +159,41 @@ First, you decide to create a list of DCL (Data Control Language or “GRANT com
     All DCL code (“GRANT” statements) from step ‘a’ above.
     The process you used to create a role with the needed DCL authorization commands instead.
     Proof that the new role works as it should for your two new logins/users.
+
+    ```sql
+    -- Define the permissions for entry-level users
+    CREATE SCHEMA [Saleman];
+    GRANT SELECT ON SCHEMA::[Saleman] TO [BYU_student_user];
+    GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::[Saleman] TO [BYU_student_user];
+
+    -- reate a user-defined role and grant permissions to the role
+    CREATE ROLE [Super_user];
+
+    -- Grant the permissions directly to the new role
+    GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::[Salemana] TO [Super_user];
+
+    -- Create two new database logins/users
+    CREATE LOGIN [EzequielW3] WITH PASSWORD = 'password';
+    CREATE USER [EzequielW3] FOR LOGIN [EzequielW3];
+    ALTER ROLE [Super_user] ADD MEMBER [EzequielW3]; -- Add EzequielW3 to the role
+
+    CREATE LOGIN [MatiasW3] WITH PASSWORD = 'password';
+    CREATE USER [MatiasW3] FOR LOGIN [MatiasW3];
+    ALTER ROLE [Super_user] ADD MEMBER [MatiasW3]; -- Add MatiasW3 to the role
+
+    -- Test the new role's permissions with the two new logins
+    USE [SalesOrdersExample];
+
+    -- Verify SELECT permission for EzequielW3
+    EXECUTE AS USER = 'EzequielW3';
+    SELECT * FROM Saleman.Orders; -- Adjust object names based on your actual schema and table names
+    REVERT;
+
+    -- Verify INSERT permission for MatiasW3
+    EXECUTE AS USER = 'MatiasW3';
+    INSERT INTO Saleman.Orders (OrderDate, ShipDate,CustomerID,EmployeeID) VALUES (now(), now(),1,3); 
+    REVERT;
+    ```
 
 ---
 
