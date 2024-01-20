@@ -88,7 +88,8 @@ If you have doubts about these security tasks, the best approach is to experimen
 2. You have heard that using ‘schemas’ can give you added flexibility and control in database security. You decide to test this by doing the following:
 Create two new schemas for the Bowling database and two more for an additional database of your choice. You will be creating four schemas total.
 Transfer the tables in the bowling database and your chosen database out of the dbo (database owner) schema and into the four new schemas. How you choose to separate the tables into these schemas is completely up to you (you will not be graded on that choice). **NOTE**: Tables can only belong to one schema.
-Create four new logins and map them to each database (two for each database). Issue a grant command that will give SELECT rights on an entire schema (one for each user). Do this for each of the four logins. Test this authorization by logging in with these new users.
+
+    Create four new logins and map them to each database (two for each database). Issue a grant command that will give SELECT rights on an entire schema (one for each user). Do this for each of the four logins. Test this authorization by logging in with these new users.
 
     **HINT**: Remember that a “login” is on the instance/server level and is used for authentication. Each login can map to one or more users in each of the databases in the instance. Logins receive instance/server level authorizations. Users receive database/schema/table/etc level authorizations. Consider users to be under the umbrella of a login.
 
@@ -98,6 +99,50 @@ Create four new logins and map them to each database (two for each database). Is
     The process you used to transfer the tables into the four new schemas.
     Proof that each of the four logins can access the schema intended and no other schemas.
 
+    ```sql
+    -- For the Bowling database
+    USE [BowlingLeagueExample];
+    -- Create Four New Schemas
+    CREATE SCHEMA [Marketing];
+    CREATE SCHEMA [Technology];,
+
+    -- Transfer Tables to New Schemas
+    ALTER SCHEMA [Marketing] TRANSFER dbo.Teams;
+    ALTER SCHEMA [Marketing] TRANSFER dbo.Bowlers;
+    ALTER SCHEMA [Technology] TRANSFER dbo.Tournaments;
+    ALTER SCHEMA [Technology] TRANSFER dbo.Bowler_Scores;
+
+
+    -- Create Four New Logins and Map to Databases
+    CREATE LOGIN [User_Marketing] WITH PASSWORD = 'password';
+    CREATE USER [User_Marketing] FOR LOGIN [User_Marketing];
+    ALTER ROLE [db_datareader] ADD MEMBER [User_Marketing];
+
+    CREATE LOGIN [User_HR] WITH PASSWORD = 'password';
+    CREATE USER [User_HR] FOR LOGIN [User_HR];
+    ALTER ROLE [db_datareader] ADD MEMBER [User_HR];
+
+    CREATE LOGIN [User_Sales] WITH PASSWORD = 'password';
+    CREATE USER [User_Sales] FOR LOGIN [User_Sales];
+    ALTER ROLE [db_datareader] ADD MEMBER [User_Sales];
+
+    CREATE LOGIN [User_Tech] WITH PASSWORD = 'password';
+    CREATE USER [User_Tech] FOR LOGIN [User_Tech];
+    ALTER ROLE [db_datareader] ADD MEMBER [User_Tech];
+
+    -- Issuing Grant Commands for SELECT Rights on Entire Schemas
+    GRANT SELECT ON SCHEMA::[Marketing] TO [User_Marketing];
+    GRANT SELECT ON SCHEMA::[Marketing] TO [User_HR];
+    GRANT SELECT ON SCHEMA::[Technology] TO [User_Sales];
+    GRANT SELECT ON SCHEMA::[Technology] TO [User_Tech];
+
+    -- Test Authorization by Logging in with New Users
+    USE BowlingLeagueExample; 
+    SELECT * FROM [Marketing].Teams;
+    SELECT * FROM [Marketing].Bowlers;
+    SELECT * FROM [Technology].Tournaments;
+    SELECT * FROM [Technology].Bowler_Scores;
+    ```
 ---
 
 3. With “user-defined roles,” determine a common level of authorization privileges new users should have in one database of your choice. This may be different for each business model (database) according to your discretion.
