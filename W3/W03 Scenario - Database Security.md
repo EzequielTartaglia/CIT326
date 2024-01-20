@@ -102,7 +102,7 @@ Transfer the tables in the bowling database and your chosen database out of the 
     ```sql
     -- For the Bowling database
     USE [BowlingLeagueExample];
-    -- Create Four New Schemas
+    -- Create Two New Schemas
     CREATE SCHEMA [Marketing];
     CREATE SCHEMA [Technology];,
 
@@ -162,15 +162,15 @@ First, you decide to create a list of DCL (Data Control Language or “GRANT com
 
     ```sql
     -- Define the permissions for entry-level users
-    CREATE SCHEMA [Saleman];
-    GRANT SELECT ON SCHEMA::[Saleman] TO [BYU_student_user];
-    GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::[Saleman] TO [BYU_student_user];
+    CREATE SCHEMA [Salesman];
+    GRANT SELECT ON SCHEMA::[Salesman] TO [BYU_student_user];
+    GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::[Salesman] TO [BYU_student_user];
 
-    -- reate a user-defined role and grant permissions to the role
+    -- Create a user-defined role and grant permissions to the role
     CREATE ROLE [Super_user];
 
     -- Grant the permissions directly to the new role
-    GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::[Salemana] TO [Super_user];
+    GRANT SELECT, INSERT, UPDATE, DELETE ON SCHEMA::[Salesman] TO [Super_user];
 
     -- Create two new database logins/users
     CREATE LOGIN [EzequielW3] WITH PASSWORD = 'password';
@@ -186,12 +186,12 @@ First, you decide to create a list of DCL (Data Control Language or “GRANT com
 
     -- Verify SELECT permission for EzequielW3
     EXECUTE AS USER = 'EzequielW3';
-    SELECT * FROM Saleman.Orders; -- Adjust object names based on your actual schema and table names
+    SELECT * FROM Salesman.Orders; -- Adjust object names based on your actual schema and table names
     REVERT;
 
     -- Verify INSERT permission for MatiasW3
     EXECUTE AS USER = 'MatiasW3';
-    INSERT INTO Saleman.Orders (OrderDate, ShipDate,CustomerID,EmployeeID) VALUES (now(), now(),1,3); 
+    INSERT INTO Salesman.Orders (OrderDate, ShipDate,CustomerID,EmployeeID) VALUES (now(), now(),1,3); 
     REVERT;
     ```
 
@@ -202,4 +202,37 @@ First, you decide to create a list of DCL (Data Control Language or “GRANT com
     **SHOW 4:**
 
     A query and results that include data dictionary information showing evidence of something you did in this assignment (perhaps a query that shows a new schema, login, or user-defined role you created in steps 1, 2, or 3).
+
+   ```sql
+    -- Retreive new schemas
+    SELECT schema_name
+    FROM information_schema.schemata
+    WHERE schema_name IN ('Marketing', 'Technology', 'Salesman');
+
+    -- Retreive new logins
+    SELECT name
+    FROM sys.sql_logins
+    WHERE name IN ('EzequielW3', 'MatiasW3', 'User_Marketing', 'User_HR', 'User_Sales', 'User_Tech');
+
+    -- Retreive new roles
+    SELECT name
+    FROM sys.database_principals
+    WHERE type_desc = 'DATABASE_ROLE' AND name = 'Super_user';
+    ```
+
     One additional data dictionary query regarding anything in database security that might be useful to the business going forward. Include the query, the results, and your explanation for why it would be a useful security report.
+
+
+    ```sql
+    -- Retrieve permitions's users
+    SELECT 
+        princ.name AS [User_Name],
+        princ.type_desc AS [User_Type],
+        role.name AS [Role_Name],
+        role.type_desc AS [Role_Type],
+        role.is_fixed_role AS [Is_Fixed_Role]
+    FROM sys.database_role_members role_members
+    JOIN sys.database_principals princ ON role_members.member_principal_id = princ.principal_id
+    JOIN sys.database_principals role ON role_members.role_principal_id = role.principal_id
+    ORDER BY [User_Name], [Role_Name];
+    ```
