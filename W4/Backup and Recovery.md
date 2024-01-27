@@ -12,6 +12,21 @@ Be sure you submit all elements labeled by the bolded word, SHOW.
  
 	**SHOW 1**: Your query and the results.
 
+
+    ```sql
+	USE msdb;
+	GO
+
+	SELECT
+		database_name AS 'Database',
+		MAX(backup_finish_date) AS 'LastBackupDate'
+	FROM
+		dbo.backupset
+	WHERE
+		type = 'D' -- 'D' denotes a full database backup
+	GROUP BY
+		database_name;
+    ```
 ---
 
 2. Make new backups for ALL of your user databases (not system databases).
