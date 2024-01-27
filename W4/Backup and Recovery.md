@@ -105,3 +105,15 @@ Be sure you submit all elements labeled by the bolded word, SHOW.
 	You have deleted all rows in the Bowler_scores and Bowlers tables.
 	Successful import messages from step d and that you once again have data in those two tables.
 
+	```sql
+	-- Open the power shell (inside the SQL Server), then run these commands:
+
+	bcp BowlingLeagueModify.dbo.Bowler_Scores out C:\BCP\Bowler_scores_export.txt -S localhost -T -c
+	
+	bcp BowlingLeagueModify.dbo.Bowlers  out C:\BCP\Bowler_scores_export.txt -S localhost -T -c
+
+		
+	bcp BowlingLeagueModify.dbo.Bowler_Scores in C:\BCP\Bowler_scores_export.txt -S localhost -T -c
+	
+	bcp BowlingLeagueModify.dbo.Bowlers  in C:\BCP\Bowler_scores_export.txt -S localhost -T -c
+	```
