@@ -35,6 +35,37 @@ Be sure you submit all elements labeled by the bolded word, SHOW.
 	The method you used to backup the databases. 
 	Re-run the query from step one, proving that you now have recent backups.
 
+    ```sql
+	-- Full backup for BowlingLeagueExample
+	BACKUP DATABASE [BowlingLeagueExample] TO DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\BowlingLeagueExample.bak' WITH INIT;
+
+	-- Full backup for EntertainmentAgencyExample
+	BACKUP DATABASE [EntertainmentAgencyExample] TO DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\EntertainmentAgencyExample_backup.bak' WITH INIT;
+
+	-- Full backup for EntertainmentAgencyModify
+	BACKUP DATABASE [EntertainmentAgencyModify] TO DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\EntertainmentAgencyModify_backup.bak' WITH INIT;
+
+	-- Full backup for RecipesExample
+	BACKUP DATABASE [RecipesExample] TO DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\RecipesExample_backup.bak' WITH INIT;
+
+	-- Full backup for SalesOrdersExample
+	BACKUP DATABASE [SalesOrdersExample] TO DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\SalesOrdersExample_backup.bak' WITH INIT;
+
+	-- Full backup for SalesOrdersModify
+	BACKUP DATABASE [SalesOrdersModify] TO DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\SalesOrdersModify_backup.bak' WITH INIT;
+
+	-- Full backup for sample
+	BACKUP DATABASE [sample] TO DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\sample_backup.bak' WITH INIT;
+
+	-- Full backup for SchoolSchedulingExample
+	BACKUP DATABASE [SchoolSchedulingExample] TO DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\SchoolSchedulingExample_backup.bak' WITH INIT;
+
+	-- Full backup for SchoolSchedulingModify
+	BACKUP DATABASE [SchoolSchedulingModify] TO DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\SchoolSchedulingModify_backup.bak' WITH INIT;
+
+	-- Full backup for WideWorldImporters
+	BACKUP DATABASE [WideWorldImporters] TO DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\WideWorldImporters.bak' WITH INIT;
+	```
 ---
 
 3. You decide to make copies of the bowling database for test purposes:
