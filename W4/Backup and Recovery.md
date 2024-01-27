@@ -79,6 +79,16 @@ Be sure you submit all elements labeled by the bolded word, SHOW.
 	The process you used to copy the database as a “test” version. Show that the new copy exists.
 	The process you used to copy the database as a “development” version. Show that this copy exists in the cloud.
 
+	```sql
+	-- Restore locally with a new name "bowling_TEST"
+	RESTORE DATABASE [bowling_TEST]
+	FROM DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\BowlingLeagueExample.bak'
+	WITH 
+		MOVE 'BowlingLeagueExample' TO 'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\bowling_TEST.mdf',
+		MOVE 'BowlingLeagueExample_log' TO 'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\bowling_TEST_log.ldf',
+		REPLACE;
+	```
+
 ---
 
 4. Now that you have a local test database, we need to be prepared to refresh certain tables after the live data changes in production (we will say production is your local laptop). You will need to practice backing up and reloading individual tables (instead of whole databases). For this, we will not use backup/restore. We will use the BCP utility outlined in this week's preparation page (and chapter 15 of the book) or in the video in step 2 below.
