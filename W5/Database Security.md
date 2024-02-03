@@ -17,6 +17,23 @@ Be sure you submit all elements labeled by the bolded word, SHOW.
  
 	**SHOW 1:** The contents of the bowlers table with the new email addresses you added. (If you already encrypted the value in a future step, you can simply show the commands you used in this step along with the encrypted contents.)
 
+	```sql
+	-- Use the Database
+	USE [BowlingLeagueModify]
+	GO
+
+	-- Add column to Bowlers DB
+	ALTER TABLE [dbo].[Bowlers]
+	ADD email_address VARCHAR(50);
+
+	-- Update the Email Adres like ezequieltartaglia@gmail.com
+	UPDATE [dbo].[Bowlers]
+	SET email_address = LOWER(CONCAT(BowlerFirstName, BowlerLastName, '@gmail.com'));
+
+	-- Retrieve the result
+	SELECT * FROM bowlers;
+	```
+
 ---
 
 2. Under the chapter section, "Data Security and Views," we learn how we can keep users from seeing certain columns that they should not view: 
