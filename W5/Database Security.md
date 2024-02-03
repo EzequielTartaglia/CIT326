@@ -44,7 +44,40 @@ Be sure you submit all elements labeled by the bolded word, SHOW.
 
 
 	**SHOW 2:** That the view works by logging in to the database as the new user and selecting from the view, and show what tables and views they are able to see. Provide a screenshot that shows that the personal information (other than first and last name) is not displayed in the results.
+	
+	```sql
+	-- Create a login
+	CREATE LOGIN bob_the_scorekeeper WITH PASSWORD = 'changeme';
 
+	-- Create a user mapped to the login
+	USE BowlingLeagueModify;
+	CREATE USER bob_the_scorekeeper FOR LOGIN bob_the_scorekeeper;
+
+	-- Grant access to the view for bob_the_scorekeeper
+	GRANT SELECT ON dbo.BowlersView TO bob_the_scorekeeper;
+
+	-- Grant necessary permissions on the base table (dbo.bowlers)
+	GRANT SELECT ON dbo.bowlers TO bob_the_scorekeeper;
+
+
+	-- Create the view
+	CREATE VIEW dbo.BowlersView
+	AS
+	SELECT
+		BowlerID,
+		BowlerLastName,
+		BowlerFirstName,
+		BowlerMiddleInit,
+		BowlerCity,
+		BowlerState,
+		BowlerZip,
+		TeamID,
+		BowlerTotalPins,
+		BowlerGamesBowled,
+		BowlerCurrentAverage,
+		BowlerCurrentHcp
+	FROM dbo.bowlers;
+	```
 ---
 
 3. Your new programmer needs a bit more access than Bob the scorekeeper. Create her a login/user called "carol_the_programmer" with a password of your choice. Carol needs to be able to see all the columns, but not the actual data. To solve this, you should:
@@ -54,7 +87,22 @@ Be sure you submit all elements labeled by the bolded word, SHOW.
 	NOTE: Pay close attention to what access the new user should have based on the instructions. Generate and save your scripts from steps 1-3 so you can run them on the class server in step 4!
 
 	**SHOW 3:** A connection logged in as Carol and prove that she only sees encrypted values in the address, phone number, email columns, and show what tables and views they are able to see. 
-		
+
+	```sql
+	-- Create a login
+	CREATE LOGIN carol_the_programmer WITH PASSWORD = 'changeme';
+
+	-- Create a user mapped to the login
+	USE BowlingLeagueModify;
+	CREATE USER carol_the_programmer FOR LOGIN carol_the_programmer;
+
+	-- Conceder a Carol el permiso de SELECT en todas las tablas
+	GRANT SELECT ON SCHEMA::dbo TO carol_the_programmer;
+
+	-- Grant necessary permissions on the base table (dbo.bowlers)
+	GRANT SELECT ON dbo.bowlers TO carol_the_programmer;
+	```
+
 ---
 
 4. Let's test your level of security with a classmate's help!
