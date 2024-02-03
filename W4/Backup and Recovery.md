@@ -110,10 +110,10 @@ Be sure you submit all elements labeled by the bolded word, SHOW.
 
 	bcp BowlingLeagueModify.dbo.Bowler_Scores out C:\BCP\Bowler_scores_export.txt -S localhost -T -c
 	
-	bcp BowlingLeagueModify.dbo.Bowlers  out C:\BCP\Bowler_scores_export.txt -S localhost -T -c
+	bcp BowlingLeagueModify.dbo.Bowlers  out C:\BCP\Bowler_export.txt -S localhost -T -c
 
 		
 	bcp BowlingLeagueModify.dbo.Bowler_Scores in C:\BCP\Bowler_scores_export.txt -S localhost -T -c
 	
-	bcp BowlingLeagueModify.dbo.Bowlers  in C:\BCP\Bowler_scores_export.txt -S localhost -T -c
+	bcp BowlingLeagueModify.dbo.Bowlers  in C:\BCP\Bowler_export.txt -S localhost -T -c
 	```
