@@ -14,35 +14,35 @@ Your suggested implementation plan for this scenario.
 Demonstrate your implementation plan by making various backup(s), transaction(s) (inserts, updates, or deletes) and a restore (or restores) for Karl using your plan.
 
 ```sql
-USE [SalesOrdersExample];
-ALTER DATABASE [SalesOrdersExample] SET RECOVERY SIMPLE;
+USE [BowlingLeagueExample];
+ALTER DATABASE [BowlingLeagueExample] SET RECOVERY SIMPLE;
 
-BACKUP DATABASE [SalesOrdersExample] TO  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\salesOrdersExampletlog.trl' WITH NOFORMAT, NOINIT,  NAME = N'SalesOrdersExample-Full Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10
+BACKUP DATABASE [BowlingLeagueExample] TO  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\BowlingLeagueExampletlog.trl' WITH NOFORMAT, NOINIT,  NAME = N'BowlingLeagueExample-Full Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10
 GO
 
-SELECT * FROM Products;
+SELECT * FROM ztbWeeks;
 
-INSERT INTO Products VALUES(41,'Handle book', null, 23.46, 13,1)
+INSERT INTO ztbWeeks VALUES('2024-02-10', '2024-03-01')
 SELECT GETDATE();
 -- 2024-02-10 17:07:14.907
 
 
-BACKUP DATABASE [SalesOrdersExample] TO  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\salesOrdersExampletlog.trl' WITH NOFORMAT, NOINIT,  NAME = N'SalesOrdersExample-Full Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10
+BACKUP DATABASE [BowlingLeagueExample] TO  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\BowlingLeagueExampletlog.trl' WITH NOFORMAT, NOINIT,  NAME = N'BowlingLeagueExample-Full Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10
 GO
 
-INSERT INTO Products VALUES(42,'Handle book 2', null, 28.46, 90,1)
+INSERT INTO ztbWeeks VALUES('2024-03-10', '2024-04-01')
 SELECT GETDATE();
 -- 2024-02-10 17:10:51.270
 
 
-BACKUP DATABASE [SalesOrdersExample] TO  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\salesOrdersExampletlog.trl' WITH NOFORMAT, NOINIT,  NAME = N'SalesOrdersExample-Full Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10
+BACKUP DATABASE [BowlingLeagueExample] TO  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\BowlingLeagueExampletlog.trl' WITH NOFORMAT, NOINIT,  NAME = N'BowlingLeagueExample-Full Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10
 GO
 
 -- Choosen 6 hours interval
 USE [master]
-ALTER DATABASE [SalesOrdersExample] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
-RESTORE DATABASE [SalesOrdersExample] FROM  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\SalesOrdersExample_backup.bak' WITH  FILE = 1,  NOUNLOAD,  REPLACE,  STATS = 5
-ALTER DATABASE [SalesOrdersExample] SET MULTI_USER
+ALTER DATABASE [BowlingLeagueExample] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+RESTORE DATABASE [BowlingLeagueExample] FROM  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\BowlingLeagueExample_backup.bak' WITH  FILE = 1,  NOUNLOAD,  REPLACE,  STATS = 5
+ALTER DATABASE [BowlingLeagueExample] SET MULTI_USER
 
 GO
 ```
