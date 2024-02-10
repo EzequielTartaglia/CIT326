@@ -68,3 +68,22 @@ SELECT t.NAME AS TableName
 FROM sys.Tables t
 LEFT JOIN sys.sql_expression_dependencies d ON d.referenced_id = t.object_id
 WHERE d.referenced_id IS NULL;
+
+```sql
+USE [WideWorldImporters];
+ALTER DATABASE [WideWorldImporters] SET RECOVERY FULL;
+
+BACKUP DATABASE [WideWorldImporters] TO  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\WideWorldImportersFull_bak' WITH NOFORMAT, NOINIT,  NAME = N'WideWorldImporters-Full Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10
+GO
+
+BACKUP LOG [WideWorldImporters] TO  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\WideWorldImportersFull_bak' WITH NOFORMAT, NOINIT,  NAME = N'WideWorldImporters-Full Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10
+GO
+
+
+-- Choosen a hour interval
+USE [master]
+ALTER DATABASE [WideWorldImporters] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+RESTORE DATABASE [WideWorldImporters] FROM  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\WideWorldImportersFull_bak' WITH  FILE = 1,  NOUNLOAD,  REPLACE,  STATS = 5
+ALTER DATABASE [WideWorldImporters] SET MULTI_USER
+GO
+```
