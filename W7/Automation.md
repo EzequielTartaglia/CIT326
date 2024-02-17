@@ -10,6 +10,20 @@ You realize you need to explain to Ralph and Karl why you think the overuse of t
 
 **SHOW 1**: Your understanding of security best practices by explaining this in your video.
 
+
+1. **Excessive Privileges: The sysadmin role grants unrestricted access to all aspects of the SQL Server instance. Assigning this role to users who don't actually need such extensive permissions introduces unnecessary risk. It's like giving someone the keys to every door in your house when all they need is access to one room.**
+
+2. **Increased Attack Surface: Granting sysadmin privileges to users increases the potential attack surface of your SQL Server instance. If one of these users' accounts is compromised or misused, an attacker could gain complete control over the database system, potentially leading to data breaches or other security incidents.**
+
+3. **Lack of Principle of Least Privilege: The principle of least privilege dictates that users should only be given the minimum level of access required to perform their job functions. Assigning sysadmin privileges to users who only need limited access violates this principle and can lead to unintended data exposure or modification.**
+
+4. **Difficulty in Auditing and Accountability: When multiple users have sysadmin privileges, it becomes challenging to track who performed which actions within the SQL Server environment. This lack of accountability makes it harder to investigate security incidents or enforce compliance with regulatory requirements.**
+
+5. **Potential for Configuration Errors: Sysadmin users have the ability to make configuration changes that affect the entire SQL Server instance. Allowing multiple users to make such changes increases the likelihood of configuration errors or misconfigurations that could impact system stability or security.**
+
+**Overall, while granting sysadmin privileges may seem convenient in the short term, it introduces significant security risks and goes against established security best practices. It's essential to follow the principle of least privilege and carefully restrict access to sensitive database resources to mitigate these risks and maintain a secure SQL Server environment.**
+
+
 ---
 
 Implement a daily scheduled job to check for all logins with the sysadmin role to keep tabs on the extent of this issue and be able to revoke sysadmin when needed.
