@@ -109,6 +109,17 @@ CREATE TABLE custom_audit_table (
 );
 GO
 
+-- Execute the job daily at 2:00 AM
+EXEC msdb.dbo.sp_add_schedule @schedule_name = 'DailySysadminAuditSchedule',
+    @freq_type = 4, -- 4 indica ejecución diaria
+    @freq_interval = 1, -- cada día
+    @active_start_time = 20000; -- hora de inicio (en este caso, 2:00 AM)
+GO
+
+-- Assosiate the job with the schedule
+EXEC msdb.dbo.sp_attach_schedule @job_name = 'CustomSysadminAuditJob',
+    @schedule_name = 'DailySysadminAuditSchedule';
+GO
 ```
 
 
