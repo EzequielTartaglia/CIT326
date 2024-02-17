@@ -25,4 +25,90 @@ A demonstration of you running the new job.
 The job history showing all steps successful.
 The contents of your custom table (step c) which should include the four new sysadmin logins that Ralph created in step d.
 
+```sql
+-- Step 1: Drop existing tables if they exist
+IF OBJECT_ID('sysadmin_audit_table', 'U') IS NOT NULL
+    DROP TABLE sysadmin_audit_table;
+
+IF OBJECT_ID('custom_audit_table', 'U') IS NOT NULL
+    DROP TABLE custom_audit_table;
+GO
+
+-- Step 2: Create a scheduled job to check for logins with the sysadmin role
+USE msdb;
+GO
+
+-- If the job already exists, delete it to avoid duplicates
+IF EXISTS (SELECT 1 FROM msdb.dbo.sysjobs WHERE name = 'CheckSysadminLogins')
+BEGIN
+    EXEC msdb.dbo.sp_delete_job @job_name = 'CheckSysadminLogins';
+END
+GO
+
+-- Create the scheduled job
+EXEC msdb.dbo.sp_add_job @job_name = 'CheckSysadminLogins',
+    @enabled = 1,
+    @description = 'Daily check for logins with sysadmin role',
+    @category_name = 'Database Maintenance';
+GO
+
+-- Step 3: Add the first step to the job to execute the check
+EXEC msdb.dbo.sp_add_jobstep @job_name = 'CheckSysadminLogins',
+    @step_name = 'Run Sysadmin Check',
+    @subsystem = 'TSQL',
+    @command = '
+        INSERT INTO sysadmin_audit_table (login_name, last_modified_date)
+        SELECT p.name, p.modify_date
+        FROM sys.server_principals p
+        JOIN sys.server_role_members rm ON p.principal_id = rm.member_principal_id
+        JOIN sys.server_principals r ON rm.role_principal_id = r.principal_id
+        WHERE rm.name = ''sysadmin'' AND p.name = ''sa''',
+    @database_name = 'msdb';
+GO
+
+-- Step 4: Create the sysadmin_audit_table to store audit results
+CREATE TABLE sysadmin_audit_table (
+    login_name NVARCHAR(100),
+    last_modified_date DATETIME
+);
+GO
+
+-- Step 5: Create a custom job to insert audit data daily
+USE msdb;
+GO
+
+-- If the job already exists, delete it to avoid duplicates
+IF EXISTS (SELECT 1 FROM msdb.dbo.sysjobs WHERE name = 'CustomSysadminAuditJob')
+BEGIN
+    EXEC msdb.dbo.sp_delete_job @job_name = 'CustomSysadminAuditJob';
+END
+GO
+
+-- Create the custom job
+EXEC msdb.dbo.sp_add_job @job_name = 'CustomSysadminAuditJob',
+    @enabled = 1,
+    @description = 'Daily audit of sysadmin logins',
+    @category_name = 'Database Maintenance';
+GO
+
+-- Add the first step to the custom job to insert audit data
+EXEC msdb.dbo.sp_add_jobstep @job_name = 'CustomSysadminAuditJob',
+    @step_name = 'Insert Audit Data',
+    @subsystem = 'TSQL',
+    @command = '
+        INSERT INTO custom_audit_table (login_name, last_modified_date)
+        SELECT login_name, last_modified_date
+        FROM sysadmin_audit_table',
+    @database_name = 'msdb';
+GO
+
+-- Step 6: Create the custom_audit_table to store custom audit data
+CREATE TABLE custom_audit_table (
+    login_name NVARCHAR(100),
+    last_modified_date DATETIME
+);
+GO
+
+```
+
 
