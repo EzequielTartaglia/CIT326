@@ -17,12 +17,36 @@ Your company would like you to set up a maintenance plan to ensure overall healt
 
 **SHOW 1:** 
 That the following tasks are present in your maintenance plan and prove they are successful: 
-    - Check Database Integrity
-    - Rebuild Index
-    - Reorganize Indexes and Update Statistics
-    - Backup Database (Full)
-    - Cleanup History (optional)
-    - A schedule for each task to run (even if it is only a combined one-time schedule)
+    
+```sql
+    use SalesOrdersExample;
+
+    -- Check Database Integrity
+    DBCC CHECKDB (SalesOrdersExample) WITH NO_INFOMSGS;
+
+    -- Rebuild Index
+    ALTER INDEX ALL ON dbo.Order_Details REBUILD;
+
+    -- Reorganize Indexes and Update Statistics
+    ALTER INDEX ALL ON dbo.Order_Details REORGANIZE;
+    UPDATE STATISTICS dbo.Order_Details;
+
+    -- Backup Database (Full)
+    BACKUP DATABASE [SalesOrdersExample] TO  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\SalesOrdersExample_backup.bak' WITH NOFORMAT, NOINIT,  NAME = N'SalesOrdersExample-Full Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10
+    GO
+
+    -- Cleanup History (optional)
+
+    -- A schedule for each task to run (even if it is only a combined one-time schedule)
+    
+    -- Schedule for Backup Database (Full)
+    EXEC sp_add_schedule @schedule_name = N'Backup_Database_Schedule', @freq_type = 4, @freq_interval = 1, @active_start_time = 010300;
+    GO
+    EXEC sp_attach_schedule @job_name = N'Backup_Database_Job', @schedule_name = N'Backup_Database_Schedule';
+    GO
+
+```
+
 
 **HINT:**  As long as you can show a successful task for each of these, we will not worry about the scheduling order or dependencies. They can be separate jobs or steps within the same job.
 
