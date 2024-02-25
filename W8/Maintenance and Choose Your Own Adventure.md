@@ -84,7 +84,19 @@ The results after the job runs successfully.
     -- Step 2: Backup Transaction Log File
 
     -- Query to perform a backup of the transaction log file
-    BACKUP LOG [DatabaseName] TO DISK = 'backup_file_path.bak';
+    BACKUP LOG [SalesOrdersExample] TO  DISK = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup\SalesOrdersExample_backup.bak' WITH NOFORMAT, NOINIT,  NAME = N'SalesOrdersExample-Full Database Backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10
+    GO
+```
+```bash
+Result:
+
+The transaction log file size is within the predefined threshold.
+55 percent processed.
+100 percent processed.
+Processed 230 pages for database 'SalesOrdersExample', file 'SalesOrdersExample_log' on file 3.
+BACKUP LOG successfully processed 230 pages in 0.180 seconds (9.982 MB/sec).
+
+Completion time: 2024-02-24T21:11:57.5637671-03:00
 ```
 
 **NOTE:** If you find a feature that doesn’t work well with job automation, you can still create a job to check that the feature is enabled and report on the status of the feature regularly (to verify it is still enabled each Monday, for example). If you have a different way to implement the feature (without a job), please explain and show in detail how you would implement the feature of your choice.
