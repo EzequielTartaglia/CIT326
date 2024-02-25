@@ -38,7 +38,7 @@ That the following tasks are present in your maintenance plan and prove they are
     -- Cleanup History (optional)
 
     -- A schedule for each task to run (even if it is only a combined one-time schedule)
-    
+
     -- Schedule for Backup Database (Full)
     EXEC sp_add_schedule @schedule_name = N'Backup_Database_Schedule', @freq_type = 4, @freq_interval = 1, @active_start_time = 010300;
     GO
@@ -46,7 +46,6 @@ That the following tasks are present in your maintenance plan and prove they are
     GO
 
 ```
-
 
 **HINT:**  As long as you can show a successful task for each of these, we will not worry about the scheduling order or dependencies. They can be separate jobs or steps within the same job.
 
@@ -60,6 +59,33 @@ Your success in job automation last week has you wondering what else you can do 
 The concept you are implementing and explain why it will help the company. 
 The job that will help your implementation and the code inside of each step in the job.
 The results after the job runs successfully. 
+
+```sql
+    -- Step 1: Verify Transaction Log File Size
+
+    -- Query to check the size of the transaction log file
+    DECLARE @LogSizeMB FLOAT;
+    SELECT @LogSizeMB = (size * 8.0) / 1024
+    FROM sys.database_files
+    WHERE type_desc = 'LOG';
+
+    -- Check the transaction log file size against the predefined threshold
+    DECLARE @ThresholdMB FLOAT = 100; -- Predefined threshold in megabytes
+    IF @LogSizeMB > @ThresholdMB
+    BEGIN
+        PRINT 'The transaction log file size exceeds the predefined threshold of ' + CAST(@ThresholdMB AS VARCHAR(10)) + ' MB.';
+        -- Perform additional actions here if necessary
+    END
+    ELSE
+    BEGIN
+        PRINT 'The transaction log file size is within the predefined threshold.';
+    END
+
+    -- Step 2: Backup Transaction Log File
+
+    -- Query to perform a backup of the transaction log file
+    BACKUP LOG [DatabaseName] TO DISK = 'backup_file_path.bak';
+```
 
 **NOTE:** If you find a feature that doesn’t work well with job automation, you can still create a job to check that the feature is enabled and report on the status of the feature regularly (to verify it is still enabled each Monday, for example). If you have a different way to implement the feature (without a job), please explain and show in detail how you would implement the feature of your choice.
 
