@@ -7,16 +7,19 @@ Now that you have learned to set up virtual machines and docker containers in th
 Be sure you submit all elements labeled by the bolded word, **SHOW**.
 
 As shown in this week’s stepping stone: If you have not already done so, apply your Google Cloud (GCP) coupon from your instructor according to these instructions. Please read the entire instructions carefully and do **NOT** enter a personal credit card. You should have your VM ready to go.
+
 Create a second VM following the same steps from the stepping stone.
 
 **SHOW 1**: You should now have two VMs in the cloud. Both should have settings matching the video in the stepping stone.
+
+--- 
 
 Move three of your databases to the first VM. Choose from Bowling, EntertainmentAgency, Recipes, SalesOrders, sample, SchoolScheduling (WideWorldImporters should NOT be moved - it is too large).
 
 After this tutorial, you again backup your databases and copy them to the VM. This is similar to what you did here in week 4, but you will *use your IP address and related info for your new VM instead*. You then have to issue copy commands (docker cp) to move the files into the running container. After which, you will connect and restore each database again.
 
 Verify your SQL Server container is running as shown in this video.
-	
+
 **HELP**: Refer to this help document and these supplemental videos as needed.
 
 Move the three remaining databases to the second VM.
