@@ -14,9 +14,11 @@ Create a second VM following the same steps from the stepping stone.
 Move three of your databases to the first VM. Choose from Bowling, EntertainmentAgency, Recipes, SalesOrders, sample, SchoolScheduling (WideWorldImporters should NOT be moved - it is too large).
 
 After this tutorial, you again backup your databases and copy them to the VM. This is similar to what you did here in week 4, but you will *use your IP address and related info for your new VM instead*. You then have to issue copy commands (docker cp) to move the files into the running container. After which, you will connect and restore each database again.
+
 Verify your SQL Server container is running as shown in this video.
 	
 **HELP**: Refer to this help document and these supplemental videos as needed.
+
 Move the three remaining databases to the second VM.
 Prepare to connect to these new database servers by following this video to create a firewall rule.
 
