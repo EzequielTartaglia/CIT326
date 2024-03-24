@@ -18,6 +18,9 @@ NOTE: Do NOT use the default container that comes with the new VM (starts with a
 
 **SHOW 1**:  Show or explain the steps and results of everything in step 1.	
 
+![show1](show1.png)
+![show1-a](show1-a.png)
+
 Explain the benefits of using docker.
 
 Move your chosen database into your new docker server in GCP. Again, see the introduction or end of this document for ideas on a database to choose. Create your database on this new cloud server using one of the below options. 
