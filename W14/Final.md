@@ -31,6 +31,10 @@ If your chosen database has a backup file:
 
 You will have to SSH, upload your backup, and copy it into the docker container. This was done in week 4, stepping stone 2. However, you will be doing this on the new cloud VM, not on your laptop as in week 4.
 
+![show2](show2.png)
+
+![show2-a](show2-a.png)
+
 Then, establish a client connection to your new database instance (reminder video) and issue a restore command. NOTE: If you are on campus, you may need to use the visitor network depending on port.
 If, instead of a backup file, your chosen database has scripted commands to create the tables and insert the data:
 
@@ -41,6 +45,8 @@ Then, you can run the needed commands to create your tables remotely.
 Because agent jobs are on the instance level, you will not have any of your jobs from weeks 7 or 8 running inside of your new docker instance. Therefore, create a new backup job. This is to be done inside the docker instance (through your management studio connection). Use the reference section below to enable the SQL Server agent in your container if it is not already running. Also, make sure you are backing up to a location inside the container which SQL Server can write to such as the default path of var/opt/mssql/data 
 
 **SHOW 3**: Your new database backup job inside of your docker instance and prove that all steps related to the job complete successfully.
+
+![show2-b](show2-b.png)
 
 **HINT**:
 
@@ -61,6 +67,10 @@ docker start putyourcontainernamehere
 
 Create at least two new schemas with data security as a consideration (as learned in week 3).
 
+![show4](show4-a.png)
+
+![show4](show4.png)
+
 Transfer at least two tables of your choice into each of the new schemas (at least four total tables should be in schemas).
 Issue a grant command that will give select rights on one schema to a new final_test_user login. 
 
@@ -75,10 +85,13 @@ The view should be created using the same schema name as the schema you granted 
 Then, grant SELECT on this view to the account created in step 3b. 
 Prove that this view works by logging in to the database as final_test_user and selecting from the view.
 
+![show5](show5.png)
+
+![show5-a](show5-a.png)
 
 **SHOW 5**:  the commands or steps used to accomplish everything in step 4 and a quick demonstration that the user is configured correctly by logging in as final_test_user.
 
-Explain why using views is a good security practice.
+**Explain why using views is a good security practice.**
 
 Create a new database level role (example at this link under “Listing 8” OR review where we did this in week 3 when we read chapter 12). This role should include the following privileges:
 SELECT on the schema from step 3b.
@@ -89,6 +102,8 @@ SELECT on a table of your choice that is NOT inside the schema from 3b.
 
 Then, create a list of all the needed DCL (grant commands) from steps a through c and assign all of these privileges to this role. 
 Create another new login, final_running_buddy, and add it as a member of this new role.
+
+![show6](show6.png)
 
 SHOW 6:  the commands or steps used to accomplish everything in step 5 and a quick demonstration that the user is configured correctly by logging in as final_running_buddy.
 
@@ -102,7 +117,11 @@ Encrypt a column in the chosen table as done in week 5. (If you are using the Po
 
 SHOW 7: that the encryption is working.
 
+![show7](show7.png)
+
 SHOW 8:  that you can backup AND then restore your database using full recovery model.
+
+![show8](show8.png)
 
 SHOW 9: Engage in some testing with a business partner (running buddy):
 
